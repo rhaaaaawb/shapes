@@ -7,6 +7,7 @@ use crate::Size;
 
 /// A point in the Cartesian plane.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Point {
     /// The x coordinate.
     pub x: Scalar,

@@ -7,6 +7,7 @@ use crate::Point;
 
 /// The size of a shape.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Size {
     /// The horizontal length of the shape (width).
     pub w: Scalar,

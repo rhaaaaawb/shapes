@@ -5,6 +5,7 @@ use Point;
 
 /// A line.
 #[derive(Copy, Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
     /// Start point.
     pub start: Point,

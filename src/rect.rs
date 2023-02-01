@@ -5,6 +5,7 @@ use {Point, Size};
 
 /// A rectangle.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
     /// The position of the top left corner of the rectangle.
     pub pos: Point,
