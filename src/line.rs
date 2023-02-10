@@ -1,11 +1,11 @@
-
-use graphics::types;
 use graphics::math::Scalar;
+use graphics::types;
 
 use Point;
 
 /// A line.
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
     /// Start point.
     pub start: Point,
@@ -23,7 +23,7 @@ impl From<types::Line> for Line {
     fn from(line: types::Line) -> Line {
         Line {
             start: (line[0], line[1]).into(),
-            end: (line[2], line[3]).into()
+            end: (line[2], line[3]).into(),
         }
     }
 }

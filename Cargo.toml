@@ -9,7 +9,8 @@ authors = [
     "leonkunert <info@leonkunert.de>",
     "gmorenz",
     "Potpourri",
-    "TyOverby <ty@pre-alpha.com>"]
+    "TyOverby <ty@pre-alpha.com>",
+]
 description = "Convenience structs for 2D shapes"
 license = "MIT"
 readme = "README.md"
@@ -21,5 +22,9 @@ homepage = "https://github.com/pistondevelopers/shapes"
 name = "shapes"
 
 [dependencies]
+serde = { version = "1.0", features = ["derive"], optional = true }
 piston2d-graphics = "0.43.0"
 
+[features]
+serde = ["dep:serde"]
+default = []

@@ -1,10 +1,13 @@
 use std::convert::From;
 use std::ops::Mul;
 
-use graphics::math::{ Scalar, Vec2d };
+use graphics::math::{Scalar, Vec2d};
+
+use crate::Point;
 
 /// The size of a shape.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Size {
     /// The horizontal length of the shape (width).
     pub w: Scalar,
@@ -30,12 +33,24 @@ impl From<(Scalar, Scalar)> for Size {
     }
 }
 
+impl From<Point> for Size {
+    fn from(point: Point) -> Size {
+        Size {
+            w: point.x,
+            h: point.y,
+        }
+    }
+}
+
 impl<T: Into<Size>> Mul<T> for Size {
     type Output = Size;
 
     fn mul(self, v: T) -> Size {
         let v: Size = v.into();
-        Size { w: self.w * v.w, h: self.h * v.h }
+        Size {
+            w: self.w * v.w,
+            h: self.h * v.h,
+        }
     }
 }
 
@@ -43,6 +58,9 @@ impl Mul<Scalar> for Size {
     type Output = Size;
 
     fn mul(self, s: Scalar) -> Size {
-        Size { w: self.w * s, h: self.h * s }
+        Size {
+            w: self.w * s,
+            h: self.h * s,
+        }
     }
 }

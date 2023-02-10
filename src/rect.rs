@@ -1,10 +1,11 @@
+use graphics::math::{self, Scalar};
 use std::convert::From;
-use graphics::math::{ self, Scalar };
 
-use { Point, Size };
+use {Point, Size};
 
 /// A rectangle.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
     /// The position of the top left corner of the rectangle.
     pub pos: Point,
@@ -16,7 +17,10 @@ impl<P: Into<Point>, S: Into<Size>> From<(P, S)> for Rect {
     /// Creates a rectangle from the position of its top left corner and its size.
     fn from((pos, size): (P, S)) -> Rect {
         let (pos, size): (Point, Size) = (pos.into(), size.into());
-        Rect { pos: pos, size: size }
+        Rect {
+            pos: pos,
+            size: size,
+        }
     }
 }
 
@@ -56,8 +60,8 @@ impl Rect {
     pub fn centered(self) -> Rect {
         Rect {
             pos: Point {
-                 x: self.pos.x - self.size.w,
-                 y: self.pos.y - self.size.h,
+                x: self.pos.x - self.size.w,
+                y: self.pos.y - self.size.h,
             },
             size: self.size * 2.0,
         }
@@ -67,8 +71,10 @@ impl Rect {
     #[inline(always)]
     pub fn contains<T: Into<Point>>(&self, point: T) -> bool {
         let point: Point = point.into();
-        self.left() < point.x && point.x < self.right() &&
-        self.top() < point.y && point.y < self.bottom()
+        self.left() < point.x
+            && point.x < self.right()
+            && self.top() < point.y
+            && point.y < self.bottom()
     }
 
     /// Create a rectangle that circumscribes the given circle.

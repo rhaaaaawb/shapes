@@ -1,10 +1,13 @@
 use std::convert::From;
-use std::ops::{ Add, Sub };
+use std::ops::{Add, Mul, Sub};
 
-use graphics::math::{ Scalar, Vec2d };
+use graphics::math::{Scalar, Vec2d};
+
+use crate::Size;
 
 /// A point in the Cartesian plane.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Point {
     /// The x coordinate.
     pub x: Scalar,
@@ -16,7 +19,10 @@ impl Add<Scalar> for Point {
     type Output = Point;
 
     fn add(self, s: Scalar) -> Point {
-        Point { x: self.x + s, y: self.y + s }
+        Point {
+            x: self.x + s,
+            y: self.y + s,
+        }
     }
 }
 
@@ -25,7 +31,10 @@ impl<T: Into<Point>> Add<T> for Point {
 
     fn add(self, v: T) -> Point {
         let v: Point = v.into();
-        Point { x: self.x + v.x, y: self.y + v.y }
+        Point {
+            x: self.x + v.x,
+            y: self.y + v.y,
+        }
     }
 }
 
@@ -47,11 +56,23 @@ impl From<(Scalar, Scalar)> for Point {
     }
 }
 
+impl From<Size> for Point {
+    fn from(size: Size) -> Point {
+        Point {
+            x: size.w,
+            y: size.h,
+        }
+    }
+}
+
 impl Sub<Scalar> for Point {
     type Output = Point;
 
     fn sub(self, s: Scalar) -> Point {
-        Point { x: self.x - s, y: self.y - s }
+        Point {
+            x: self.x - s,
+            y: self.y - s,
+        }
     }
 }
 
@@ -59,7 +80,21 @@ impl<T: Into<Point>> Sub<T> for Point {
     type Output = Point;
 
     fn sub(self, v: T) -> Point {
-        let v = v.into();
-        Point { x: self.x - v.x, y: self.y - v.y }
+        let v: Point = v.into();
+        Point {
+            x: self.x - v.x,
+            y: self.y - v.y,
+        }
+    }
+}
+
+impl Mul<Scalar> for Point {
+    type Output = Point;
+
+    fn mul(self, s: Scalar) -> Self::Output {
+        Point {
+            x: self.x * s,
+            y: self.y * s,
+        }
     }
 }
